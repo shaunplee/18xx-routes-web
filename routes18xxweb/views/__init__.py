@@ -34,6 +34,6 @@ def pull_game_name(endpoint, values):
         abort(404, description=UNSUPPORTED_GAME_MESSAGE)
 
 
-from routes18xxweb.views import calculate, game, migrate, report
+from routes18xxweb.views import calculate, game, migrate #, report
 
 app.register_blueprint(game_app, url_prefix=f"{GAME_APP_ROOT}/<game_name>")
