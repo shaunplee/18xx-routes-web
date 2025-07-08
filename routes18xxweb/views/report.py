@@ -23,7 +23,8 @@ def _attach_json(msg, filename, content=None):
     )
 
 def _sendgrid_client():
-    return SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+    return None
+    # return SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
 
 def _build_general_message():
     railroad_headers = json.loads(request.form.get("railroadHeaders"))
@@ -42,8 +43,8 @@ def _build_general_message():
     placed_tiles_json = [dict(zip(placed_tiles_headers, row)) for row in placed_tiles_data if any(row)]
 
     msg = Mail(
-        from_email=app.config.get("MAIL_USERNAME"),
-        to_emails=os.environ["BUG_REPORT_EMAIL"],
+        from_email="MAIL_USERNAME",
+        to_emails="BUG_REPORT_EMAIL",
         subject=email_subject,
         plain_text_content=MESSAGE_BODY_FORMAT.format(user=user_email, comments=user_comments, phase=phase))
 
@@ -82,37 +83,37 @@ def report_calc_issue():
 
 @game_app.route("/report/tile-issue", methods=["POST"])
 def report_tile_issue():
-    placed_tiles_headers = json.loads(request.form.get("placedTilesHeaders"))
-    placed_tiles_data = json.loads(request.form.get("placedTilesData"))
-    coord = request.form.get("coord")
-    tile_id = request.form.get("tileId")
-    orientation = request.form.get("orientation")
-    tiles_json = json.loads(request.form.get("tiles"))
-    orientations_json = json.loads(request.form.get("orientations"))
-    user_email = request.form.get("email")
-    user_comments = request.form.get("comments")
-    email_subject = request.form.get("subject")
-    phase = request.form.get("phase")
-    stations = json.loads(request.form.get("stations"))
-    private_companies = json.loads(request.form.get("privateCompanies"))
+    # placed_tiles_headers = json.loads(request.form.get("placedTilesHeaders"))
+    # placed_tiles_data = json.loads(request.form.get("placedTilesData"))
+    # coord = request.form.get("coord")
+    # tile_id = request.form.get("tileId")
+    # orientation = request.form.get("orientation")
+    # tiles_json = json.loads(request.form.get("tiles"))
+    # orientations_json = json.loads(request.form.get("orientations"))
+    # user_email = request.form.get("email")
+    # user_comments = request.form.get("comments")
+    # email_subject = request.form.get("subject")
+    # phase = request.form.get("phase")
+    # stations = json.loads(request.form.get("stations"))
+    # private_companies = json.loads(request.form.get("privateCompanies"))
 
-    message_body = TILE_MESSAGE_BODY_FORMAT.format(
-        user=user_email, comments=user_comments, phase=phase, coord=coord, tile_id=tile_id, orientation=orientation)
+    # message_body = TILE_MESSAGE_BODY_FORMAT.format(
+    #     user=user_email, comments=user_comments, phase=phase, coord=coord, tile_id=tile_id, orientation=orientation)
 
-    msg = Mail(
-        from_email=app.config.get("MAIL_USERNAME"),
-        to_emails=os.environ["BUG_REPORT_EMAIL"],
-        subject=email_subject,
-        plain_text_content=message_body)
+    # msg = Mail(
+    #     from_email=app.config.get("MAIL_USERNAME"),
+    #     to_emails=os.environ["BUG_REPORT_EMAIL"],
+    #     subject=email_subject,
+    #     plain_text_content=message_body)
 
-    placed_tiles_json = [dict(zip(placed_tiles_headers, row)) for row in placed_tiles_data if any(row)]
+    # placed_tiles_json = [dict(zip(placed_tiles_headers, row)) for row in placed_tiles_data if any(row)]
 
-    _attach_json(msg, "placed-tiles.json", placed_tiles_json)
-    _attach_json(msg, "tiles.json", tiles_json)
-    _attach_json(msg, "orientations.json", orientations_json)
-    _attach_json(msg, "stations.json", dict(stations))
-    _attach_json(msg, "private-companies.json", dict(private_companies))
+    # _attach_json(msg, "placed-tiles.json", placed_tiles_json)
+    # _attach_json(msg, "tiles.json", tiles_json)
+    # _attach_json(msg, "orientations.json", orientations_json)
+    # _attach_json(msg, "stations.json", dict(stations))
+    # _attach_json(msg, "private-companies.json", dict(private_companies))
 
-    response = _sendgrid_client().send(msg)
+    # response = _sendgrid_client().send(msg)
 
     return ""
