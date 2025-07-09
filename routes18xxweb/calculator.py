@@ -8,8 +8,11 @@ from rq.job import Job
 
 listen = ['high', 'default', 'low']
 
-# redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
-redis_url = os.environ.get('REDISCLOUD_URL')
+# check if we're on Heroku
+if 'DYNO' in os.environ:
+    redis_url = os.environ.get('REDISCLOUD_URL')
+else:
+    redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
 
 redis_conn = redis.from_url(redis_url)
 
